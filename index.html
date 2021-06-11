@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>TodoMVC</title>
+    <meta name="description"
+        content="Helping you select an MV* framework - Todo apps for Backbone.js, Ember.js, AngularJS and many more">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="TodoMVC">
+    <meta name="twitter:site" content="@TasteJS">
+    <meta name="twitter:description"
+        content="Helping you select an MV* framework - Todo apps for Backbone.js, Ember.js, AngularJS and many more">
+    <meta name="twitter:image"
+        content="https://raw.githubusercontent.com/tastejs/todomvc/gh-pages/site-assets/screenshot.png">
+    <meta property="og:url" content="http://todomvc.com">
+    <meta property="og:title" content="TodoMVC">
+    <meta property="og:image" content="https://raw.github.com/tastejs/todomvc/gh-pages/site-assets/screenshot.png">
+    <meta property="og:description"
+        content="Helping you select an MV* framework - Todo apps for Backbone.js, Ember.js, AngularJS and many more">
+    <link rel="shortcut icon" href="img/favicon.ico">
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <!-- build:remove -->
+    <script src="bower_components/prefixfree/prefixfree.min.js"></script>
+    <!-- endbuild -->
+    <!-- build:css site-assets/main.min.css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <!-- endbuild -->
+    <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
+</head>
+
+<body>
+    <div class="container">
+        <header class="row">
+            <div class="col-md-8">
+                <img class="logo" src="img/logo.svg" width="500" height="86" alt="TodoMVC">
+                <p>Helping you <strong>select</strong> an MV* framework</p>
+                <nav>
+                    <a href="https://github.com/TheusmaOliver" class="zocial ltgray">View on GitHub</a>
+                </nav>
+            </div>
+            <div class="col-md-4">
+                <img class="logo-icon" src="img/logo-icon.png" width="330" height="330" alt="TodoMVC">
+            </div>
+        </header>
+
+        <div class="row">
+            <div class="col-md-4">
+                <h2>Introduction</h2>
+                <p>This project was created to complete one stage of the <strong>Bright Cities</strong> company's
+                    selection process!</p>
+
+            </div>
+            <div class="col-md-8">
+                <h2>Examples</h2>
+
+                <iron-pages selected="{{selectedTab}}" class="app-lists">
+                    <div class="js-app-list" data-app-list="js">
+                        <p class="applist-intro">
+                            These are examples written in pure JavaScript.
+                        </p>
+                        <ul class="js-app-list-inner applist js">
+                            <li class="routing">
+                                <a href="examples/javascript">JavaScript</a>
+                            </li>
+                        </ul>
+                    </div>
+                </iron-pages>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
