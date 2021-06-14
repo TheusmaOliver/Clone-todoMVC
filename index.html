@@ -4,30 +4,9 @@
 <head>
     <meta charset="utf-8">
     <title>TodoMVC</title>
-    <meta name="description"
-        content="Helping you select an MV* framework - Todo apps for Backbone.js, Ember.js, AngularJS and many more">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="TodoMVC">
-    <meta name="twitter:site" content="@TasteJS">
-    <meta name="twitter:description"
-        content="Helping you select an MV* framework - Todo apps for Backbone.js, Ember.js, AngularJS and many more">
-    <meta name="twitter:image"
-        content="https://raw.githubusercontent.com/tastejs/todomvc/gh-pages/site-assets/screenshot.png">
-    <meta property="og:url" content="http://todomvc.com">
-    <meta property="og:title" content="TodoMVC">
-    <meta property="og:image" content="https://raw.github.com/tastejs/todomvc/gh-pages/site-assets/screenshot.png">
-    <meta property="og:description"
-        content="Helping you select an MV* framework - Todo apps for Backbone.js, Ember.js, AngularJS and many more">
     <link rel="shortcut icon" href="img/favicon.ico">
-    <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-    <!-- build:remove -->
-    <script src="bower_components/prefixfree/prefixfree.min.js"></script>
-    <!-- endbuild -->
-    <!-- build:css site-assets/main.min.css -->
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/main.css">
-    <!-- endbuild -->
     <link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
 </head>
 
@@ -56,7 +35,7 @@
             <div class="col-md-8">
                 <h2>Examples</h2>
 
-                <iron-pages selected="{{selectedTab}}" class="app-lists">
+                <iron-pages class="app-lists">
                     <div class="js-app-list" data-app-list="js">
                         <p class="applist-intro">
                             These are examples written in pure JavaScript.
