@@ -2,7 +2,12 @@
 
 const getTasks = () => JSON.parse(localStorage.getItem('todoList')) ?? [];
 const setTasks = (tasks) => localStorage.setItem('todoList', JSON.stringify(tasks));
+
+const getCount = () => JSON.parse(localStorage.getItem('count')) ?? [];
+const setCount = (count) => localStorage.setItem('count',JSON.stringify(count));
+let count = getCount();
 let tasks = getTasks();
+let todoCount = document.getElementById('todoCount')
 let markAll = document.querySelector('.main');
 let footer = document.querySelector('.footer');
 
@@ -49,17 +54,37 @@ const insertItem = (event) => {
     if (key === 'Enter') {
         tasks.push({ 'task': task, 'status': '' });
         setTasks(tasks);
+        count.push({'count': tasks.length})
+        setCount(count)
+        countTasks(count);
         hide();
         render();
         event.target.value = '';
     }
 }
 
+const countTasks = (count) => {
+    if(tasks.length === 1){
+        todoCount.innerHTML = `
+            <span> ${count[0].count} item left</span>
+        `;
+    }else{
+        for (let i = 0; i <tasks.length; i++){
 
+            todoCount.innerHTML = `
+                <span> ${count[i].count} items left</span>
+            `;
+        }
+    }
+}
 
 const removeItem = (index) => {
     tasks.splice(index, 1);
     setTasks(tasks);
+
+    count.splice(index,1);
+    countTasks(count)
+    setCount(count);
     render();
     hide();
 }
@@ -81,8 +106,19 @@ const clickItem = (event) => {
 
 }
 
+const doubleClick = (event) =>{
+    const element = event.target
+    
+    element.innerHTML = `
+        <li class="editing">
+        <input class='editing' id="newTodo"  autofocus>
+        </li>
+    `
+}
+
 document.getElementById('newTodo').addEventListener('keypress', insertItem);
 
 document.getElementById('todoList').addEventListener('click', clickItem);
+document.getElementById('todoList').addEventListener('dblclick', doubleClick )
 
 render();
