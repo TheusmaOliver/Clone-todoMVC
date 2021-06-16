@@ -2,21 +2,16 @@
 
 const getTasks = () => JSON.parse(localStorage.getItem('todoList')) ?? [];
 const setTasks = (tasks) => localStorage.setItem('todoList', JSON.stringify(tasks));
-
-const getCount = () => JSON.parse(localStorage.getItem('count')) ?? [];
-const setCount = (count) => localStorage.setItem('count',JSON.stringify(count));
-let count = getCount();
 let tasks = getTasks();
-let todoCount = document.getElementById('todoCount')
-let markAll = document.querySelector('.main');
+let main = document.querySelector('.main');
 let footer = document.querySelector('.footer');
 
 const hide = () => {
     if (tasks.length === 0) {
-        markAll.classList.add('hidden');
+        main.classList.add('hidden');
         footer.classList.add('hidden');
     } else {
-        markAll.classList.remove('hidden');
+        main.classList.remove('hidden');
         footer.classList.remove('hidden');
     }
 }
@@ -28,7 +23,7 @@ const createItem = (task, status, index) => {
     item.classList.add('todo-item');
     item.innerHTML = `
         
-        <input type="checkbox" class="toggle" ${status} data-index=${index}>
+        <input type="checkbox" class="toggle" name="items" ${status} data-index=${index}>
         <label for="">${task}</label>
         <button class="destroy" data-index=${index}></button>
         
@@ -46,6 +41,33 @@ const clearTasks = () => {
 const render = () => {
     clearTasks();
     tasks.forEach((item, index) => createItem(item.task, item.status, index));
+    if (tasks.length === 1){
+        todoCount.innerHTML = `${tasks.length} item left`
+        
+    }else{
+        todoCount.innerHTML = `${tasks.length} items left`
+    }
+    document.getElementById('toggle-all').addEventListener('click',function toggle(){
+        var checkboxes = document.getElementsByName('items');
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i] != this){
+                checkboxes[i].checked = this.checked;
+            }
+            console.log(checkboxes[i])
+            if (checkboxes[i].checked === true){
+                tasks[i].status = 'checked'
+                setTasks(tasks);
+                todoCount.innerHTML = `0 items left`
+            }else{
+                tasks[i].status = ''
+                setTasks(tasks);
+                todoCount.innerHTML = `${tasks.length} items left`
+            }
+            
+    }
+
+          
+    })
 }
 
 const insertItem = (event) => {
@@ -54,44 +76,24 @@ const insertItem = (event) => {
     if (key === 'Enter') {
         tasks.push({ 'task': task, 'status': '' });
         setTasks(tasks);
-        count.push({'count': tasks.length})
-        setCount(count)
-        countTasks(count);
-        hide();
         render();
+        hide();
         event.target.value = '';
     }
 }
-
-const countTasks = (count) => {
-    if(tasks.length === 1){
-        todoCount.innerHTML = `
-            <span> ${count[0].count} item left</span>
-        `;
-    }else{
-        for (let i = 0; i <tasks.length; i++){
-
-            todoCount.innerHTML = `
-                <span> ${count[i].count} items left</span>
-            `;
-        }
-    }
-}
+       
 
 const removeItem = (index) => {
     tasks.splice(index, 1);
     setTasks(tasks);
-
-    count.splice(index,1);
-    countTasks(count)
-    setCount(count);
     render();
     hide();
 }
 
 const updateStatus = (index) => {
+
     tasks[index].status = tasks[index].status === '' ? 'checked' : '';
-    setTasks(tasks);
+    setTasks(tasks);  
     render();
 }
 
@@ -106,19 +108,22 @@ const clickItem = (event) => {
 
 }
 
+
+
+
 const doubleClick = (event) =>{
     const element = event.target
     
     element.innerHTML = `
-        <li class="editing">
-        <input class='editing' id="newTodo"  autofocus>
+        <li>
+        <input  id="newTodo"  autofocus>
         </li>
     `
 }
 
 document.getElementById('newTodo').addEventListener('keypress', insertItem);
-
 document.getElementById('todoList').addEventListener('click', clickItem);
-document.getElementById('todoList').addEventListener('dblclick', doubleClick )
+
+document.getElementById('todoList').addEventListener('dblclick', doubleClick );
 
 render();
