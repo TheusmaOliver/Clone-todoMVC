@@ -3,10 +3,11 @@
 const getTasks = () => JSON.parse(localStorage.getItem('todoList')) ?? [];
 const setTasks = (tasks) => localStorage.setItem('todoList', JSON.stringify(tasks));
 let tasks = getTasks();
-let main = document.querySelector('.main');
-let footer = document.querySelector('.footer');
 
 const hide = () => {
+    const main = document.querySelector('.main');
+    const footer = document.querySelector('.footer');
+
     if (tasks.length === 0) {
         main.classList.add('hidden');
         footer.classList.add('hidden');
@@ -47,28 +48,43 @@ const render = () => {
     }else{
         todoCount.innerHTML = `${tasks.length} items left`
     }
-    document.getElementById('toggle-all').addEventListener('click',function toggle(){
-        var checkboxes = document.getElementsByName('items');
-        for (var i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i] != this){
-                checkboxes[i].checked = this.checked;
-            }
-            console.log(checkboxes[i])
-            if (checkboxes[i].checked === true){
-                tasks[i].status = 'checked'
-                setTasks(tasks);
-                todoCount.innerHTML = `0 items left`
-            }else{
-                tasks[i].status = ''
-                setTasks(tasks);
-                todoCount.innerHTML = `${tasks.length} items left`
-            }
-            
-    }
-
-          
-    })
 }
+document.getElementById('toggle-all').addEventListener('click',function toggle(){
+    let checkboxes = document.getElementsByName('items');
+    
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i] != this){
+            checkboxes[i].checked = this.checked;
+        }
+        
+        if (checkboxes[i].checked === true){
+            tasks[i].status = 'checked'
+            checkboxes[i].classList.add('completed')
+            setTasks(tasks);
+            todoCount.innerHTML = `0 items left`
+        }else{
+            tasks[i].status = ''
+            checkboxes[i].classList.remove('completed')
+            setTasks(tasks);
+            todoCount.innerHTML = `${tasks.length} items left`
+        }
+    }
+})
+
+document.getElementById('clearCompleted').addEventListener('click',function clear(){
+
+    let checkboxes = document.getElementsByName('items');
+    
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].classList.contains('completed')){
+            tasks.pop()
+           
+        }
+    }
+    setTasks(tasks);
+    render();
+    hide();
+})
 
 const insertItem = (event) => {
     const key = event.key;
@@ -91,8 +107,8 @@ const removeItem = (index) => {
 }
 
 const updateStatus = (index) => {
+    tasks[index].status === '' ? 'checked' : '';
 
-    tasks[index].status = tasks[index].status === '' ? 'checked' : '';
     setTasks(tasks);  
     render();
 }
