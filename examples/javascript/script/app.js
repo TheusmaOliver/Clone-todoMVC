@@ -49,6 +49,66 @@ const render = () => {
         todoCount.innerHTML = `${tasks.length} items left`
     }
 }
+
+const insertItem = (event) => {
+    const key = event.key;
+    const task = event.target.value;
+    if (key === 'Enter') {
+        tasks.push({ 'task': task, 'status': '' });
+        setTasks(tasks);
+        render();
+        hide();
+        event.target.value = '';
+    }
+}
+
+
+const removeItem = (index) => {
+    tasks.splice(index, 1);
+    setTasks(tasks);
+    render();
+    hide();
+}
+
+const updateStatus = (index) => {
+    tasks[index].status = tasks[index].status === '' ? 'checked' : '';
+    setTasks(tasks);  
+    
+}
+
+const clickItem = (event) => {
+    const element = event.target;
+    const index = element.dataset.index;
+    if (element.type === 'submit') {
+        removeItem(index);
+    } else if (element.type === 'checkbox') {
+        updateStatus(index);
+        if (element.checked === true && !element.classList.contains('completed')){
+            element.classList.add('completed')
+            
+
+        }else{
+            element.classList.remove('completed')
+        }
+        
+        
+    }
+}
+document.getElementById('clearCompleted').addEventListener('click',function clear(){
+
+    let checkboxes = document.getElementsByName('items');
+    
+    for (let i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].classList.contains('completed')){
+            tasks.splice(checkboxes[i],1)
+            
+        }
+    }
+    setTasks(tasks);
+    render();
+    hide();
+})
+
 document.getElementById('toggle-all').addEventListener('click',function toggle(){
     let checkboxes = document.getElementsByName('items');
     
@@ -70,76 +130,11 @@ document.getElementById('toggle-all').addEventListener('click',function toggle()
         }
     }
 })
-
-document.getElementById('clearCompleted').addEventListener('click',function clear(){
-
-    let checkboxes = document.getElementsByName('items');
-    
-    for (let i = 0; i < checkboxes.length; i++) {
-        if (checkboxes[i].classList.contains('completed')){
-            tasks.pop()
-           
-        }
-    }
-    setTasks(tasks);
-    render();
-    hide();
-})
-
-const insertItem = (event) => {
-    const key = event.key;
-    const task = event.target.value;
-    if (key === 'Enter') {
-        tasks.push({ 'task': task, 'status': '' });
-        setTasks(tasks);
-        render();
-        hide();
-        event.target.value = '';
-    }
-}
-       
-
-const removeItem = (index) => {
-    tasks.splice(index, 1);
-    setTasks(tasks);
-    render();
-    hide();
-}
-
-const updateStatus = (index) => {
-    tasks[index].status === '' ? 'checked' : '';
-
-    setTasks(tasks);  
-    render();
-}
-
-const clickItem = (event) => {
-    const element = event.target;
-    const index = element.dataset.index;
-    if (element.type === 'submit') {
-        removeItem(index);
-    } else if (element.type === 'checkbox') {
-        updateStatus(index);
-    }
-
-}
-
-
-
-
-const doubleClick = (event) =>{
-    const element = event.target
-    
-    element.innerHTML = `
-        <li>
-        <input  id="newTodo"  autofocus>
-        </li>
-    `
-}
-
 document.getElementById('newTodo').addEventListener('keypress', insertItem);
+
 document.getElementById('todoList').addEventListener('click', clickItem);
 
-document.getElementById('todoList').addEventListener('dblclick', doubleClick );
+
+
 
 render();
