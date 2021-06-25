@@ -1,10 +1,22 @@
 'use strict';
 
+// Variáveis 
 const getTasks = () => JSON.parse(localStorage.getItem('todoList')) ?? [];
 const setTasks = (tasks) => localStorage.setItem('todoList', JSON.stringify(tasks));
 let tasks = getTasks();
 
-const hide = () => {
+
+// Eventos
+document.getElementById('newTodo').addEventListener('keypress', insertTask);
+document.getElementById('todoList').addEventListener('click', clickItem);
+document.getElementById('toggle-all').addEventListener('click', toggleAll);
+document.getElementById('clearCompleted').addEventListener('click', clearAll);
+
+
+//Funções
+
+// Aparecer o footer e o botao de marcar todos so quando tiver tasks
+function hide (){
     const main = document.querySelector('.main');
     const footer = document.querySelector('.footer');
 
@@ -19,7 +31,8 @@ const hide = () => {
 
 hide();
 
-const createItem = (task, status, index) => {
+// criar a estrutura da task
+function createItem(task,status,index) {
     const item = document.createElement('li');
     item.classList.add('todo-item');
     item.innerHTML = `
@@ -32,14 +45,16 @@ const createItem = (task, status, index) => {
     document.getElementById('todoList').appendChild(item);
 }
 
-const clearTasks = () => {
+// Apagar tasks repetidas
+function clearTasks( ) {
     const todoList = document.getElementById('todoList');
     while (todoList.firstChild) {
         todoList.removeChild(todoList.lastChild);
     }
 }
 
-const render = () => {
+// Renderizar a pagina por baixo dos panos
+function render () {
     clearTasks();
     tasks.forEach((item, index) => createItem(item.task, item.status, index));
     if (tasks.length === 1){
@@ -50,7 +65,8 @@ const render = () => {
     }
 }
 
-const insertItem = (event) => {
+// Inserir task
+function insertTask(event) {
     const key = event.key;
     const task = event.target.value;
     if (key === 'Enter') {
@@ -62,21 +78,8 @@ const insertItem = (event) => {
     }
 }
 
-
-const removeItem = (index) => {
-    tasks.splice(index, 1);
-    setTasks(tasks);
-    render();
-    hide();
-}
-
-const updateStatus = (index) => {
-    tasks[index].status = tasks[index].status === '' ? 'checked' : '';
-    setTasks(tasks);  
-    
-}
-
-const clickItem = (event) => {
+// Identificar index do elemento
+function clickItem (event){
     const element = event.target;
     const index = element.dataset.index;
     if (element.type === 'submit') {
@@ -94,7 +97,24 @@ const clickItem = (event) => {
         
     }
 }
-document.getElementById('clearCompleted').addEventListener('click',function clear(){
+
+// Remover task
+function removeItem (index) {
+    tasks.splice(index, 1);
+    setTasks(tasks);
+    render();
+    hide();
+}
+
+// Alterar status da task
+function updateStatus (index){
+    tasks[index].status = tasks[index].status === '' ? 'checked' : '';
+    setTasks(tasks);  
+    
+}
+
+// Excluir todas tasks
+function clearAll(){
 
     let checkboxes = document.getElementsByName('items');
     
@@ -107,9 +127,11 @@ document.getElementById('clearCompleted').addEventListener('click',function clea
     setTasks(tasks);
     render();
     hide();
-})
+}
 
-document.getElementById('toggle-all').addEventListener('click',function toggle(){
+
+// Marcar todas tasks
+function toggleAll(){
     let checkboxes = document.getElementsByName('items');
     
     for (let i = 0; i < checkboxes.length; i++) {
@@ -129,12 +151,7 @@ document.getElementById('toggle-all').addEventListener('click',function toggle()
             todoCount.innerHTML = `${tasks.length} items left`
         }
     }
-})
-document.getElementById('newTodo').addEventListener('keypress', insertItem);
-
-document.getElementById('todoList').addEventListener('click', clickItem);
-
-
+}
 
 
 render();
